@@ -407,22 +407,22 @@ function collision()
 let change = false;
 function drawTop()
 {
-	ctx.lineWidth = 5;
-	ctx.strokeStyle = "rgb(0,0,0)"
-	ctx.beginPath();
-    ctx.moveTo(0, 65);
-    ctx.lineTo(800, 65);
-    ctx.stroke();
-	ctx.closePath();
+	//ctx.lineWidth = 5;
+	//ctx.strokeStyle = "rgb(0,0,0)"
+	//ctx.beginPath();
+   // ctx.moveTo(0, 65);
+   // ctx.lineTo(800, 65);
+    //ctx.stroke();
+	//ctx.closePath();
 	let topColor = "rgb(0,0,0)"
-	if(mouseX >= 5 && mouseX <= 32 && mouseY >= 5 && mouseY <= 32)
-	{
-	topColor = "rgb(255,0,0)"
-		if(mouseIsDown)
-		{
-			window.location.replace("file:///C:/Users/gaber/OneDrive%20-%20Eagle%20Mountain%20-%20Saginaw%20I.S.D/Pictures/2020-02/Desktop/small%20project%20s.html");
-		}
-	}
+	//if(mouseX >= 5 && mouseX <= 32 && mouseY >= 5 && mouseY <= 32)
+	//{
+	//topColor = "rgb(255,0,0)"
+		//if(mouseIsDown)
+		//{
+		//	window.location.replace("file:///C:/Users/gaber/OneDrive%20-%20Eagle%20Mountain%20-%20Saginaw%20I.S.D/Pictures/2020-02/Desktop/small%20project%20s.html");
+		//}
+	//}
 	if(change)
 		{
 			window.location.replace("file:///C:/Users/gaber/OneDrive%20-%20Eagle%20Mountain%20-%20Saginaw%20I.S.D/Pictures/2020-02/Desktop/brick%20breaker%20p.html");
@@ -430,16 +430,16 @@ function drawTop()
 	//the next 5-10 lines of code was adapted from https://www.javascripttutorial.net/web-apis/javascript-draw-line/
 	ctx.strokeStyle = topColor;
     // draw a red line
-	ctx.beginPath();
-    ctx.moveTo(5, 5);
-    ctx.lineTo(32, 32);
-    ctx.stroke();
-	ctx.closePath();
-	ctx.beginPath();
-    ctx.moveTo(32, 5);
-    ctx.lineTo(5, 32);
-    ctx.stroke();
-	ctx.closePath();
+	//ctx.beginPath();
+   // ctx.moveTo(5, 5);
+   // ctx.lineTo(32, 32);
+   // ctx.stroke();
+	//ctx.closePath();
+	//ctx.beginPath();
+   // ctx.moveTo(32, 5);
+   // ctx.lineTo(5, 32);
+   // ctx.stroke();
+	//ctx.closePath();
 }
 
 function restart()
