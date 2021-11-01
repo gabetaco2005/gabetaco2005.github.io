@@ -496,23 +496,10 @@ function draw(){
 		ctx.fillText("YOU WIN",200,350)
 	}
 	
-    collision();
+   	collision();
 	stop();
-   	if(wW < 500)
-	{
-		paddleX = mouseX;
-		Movement();
-		MovementAD();
-		console.log(" bellow 500")
-	}
-	if(wW >= 500)
-	{
-		Movement();
-		MovementAD();
-		console.log(" above 500")
-	}
-	drawTop();
-	    console.log("updated")
+	Movement();
+	MovementAD();
 	//youWin();
 	//drawHighScore();
 	//test();
