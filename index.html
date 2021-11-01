@@ -16,6 +16,8 @@ document.addEventListener("keyup", keyUpHandler, false);
 canvas.addEventListener("mousemove", getPosition, false);
 canvas.addEventListener("mouseup", getMouseUp, false);
 canvas.addEventListener("mousedown", getMouseDown, false);
+let wW = window.innerWidth;
+let wH = window.innerHeight;
 let fps = 60;
 let ballX = 400;
 let ballY = 400;
@@ -474,7 +476,8 @@ function draw(){
 	//ballXTheta += .1;
 	//ballYTheta += .1;
 	//drawFastBall
-	paddleX = mouseX;
+	    
+	
 	if(brickGame == false && score < 165)
 	{
 		drawBall();
@@ -495,9 +498,15 @@ function draw(){
 	
     collision();
 	stop();
-    movement();
-	Movement();
-	MovementAD();
+   	if(wW > 100)
+	{
+		movement();
+	}
+	else
+	{
+		Movement();
+		MovementAD();
+	}
 	drawTop();
 	//youWin();
 	//drawHighScore();
