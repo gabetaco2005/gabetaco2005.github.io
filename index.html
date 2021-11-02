@@ -44,7 +44,7 @@ let brickGame = false;
 let mouseIsDown = false;
 let mouseX = 0;
 let mouseY = 0;
-
+let paddleSpeed = 7.0;
 
 function getPosition(event)
 {
@@ -210,11 +210,11 @@ function movement()
 {
     if(leftPressed == true && (paddleX) >0)
     {
-        paddleX -= 7;
+        paddleX -= paddleSpeed;
     }
     else if(rightPressed == true && (paddleX + paddleW) < 800)
     {
-        paddleX += 7;
+        paddleX += paddleSpeed;
     }
     
     ballX += ballXTheta;
@@ -235,11 +235,11 @@ function Movement()
 {
     if(UpPressed == true && (paddleX) >0)
     {
-        paddleX -= 7;
+        paddleX -= paddleSpeed;
     }
     else if(DownPressed == true && (paddleX + paddleW) < 800)
     {
-        paddleX += 7;
+        paddleX += paddleSpeed;
     }
     
     ballX += ballXTheta;
@@ -250,11 +250,11 @@ function MovementAD()
 {
     if(DPressed == true && (paddleX) >0)
     {
-        paddleX -= 7;
+        paddleX -= paddleSpeed;
     }
     else if(APressed == true && (paddleX + paddleW) < 800)
     {
-        paddleX += 7;
+        paddleX += paddleSpeed;
     }
     
     ballX += ballXTheta;
@@ -386,6 +386,8 @@ function collision()
 			score++;
 			//playSound("pop.wav")
 			ballYTheta = ballYTheta * -1;
+			ballXTheta += .01;
+			paddleSpeed += .01;
 			//ballXTheta = ballXTheta * -1;
 		}
 		
