@@ -299,13 +299,6 @@ function playSound(source)
    sound.src = source;
    playSound();
 }
-
-//function playVidio(source)
-//{
-    //let video = new Vidio();
-	//video.scr = source;
-	//video.play();
-//}
  
 <!-- function drawHighScore() -->
 <!-- {  -->
@@ -409,13 +402,13 @@ function collision()
 let change = false;
 function drawTop()
 {
-	//ctx.lineWidth = 5;
-	//ctx.strokeStyle = "rgb(0,0,0)"
-	//ctx.beginPath();
-   // ctx.moveTo(0, 65);
-   // ctx.lineTo(800, 65);
-    //ctx.stroke();
-	//ctx.closePath();
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = "rgb(0,0,0)"
+	ctx.beginPath();
+   	ctx.moveTo(0, 65);
+   	ctx.lineTo(800, 65);
+    	ctx.stroke();
+	ctx.closePath();
 	let topColor = "rgb(0,0,0)"
 	//if(mouseX >= 5 && mouseX <= 32 && mouseY >= 5 && mouseY <= 32)
 	//{
@@ -425,10 +418,6 @@ function drawTop()
 		//	window.location.replace("file:///C:/Users/gaber/OneDrive%20-%20Eagle%20Mountain%20-%20Saginaw%20I.S.D/Pictures/2020-02/Desktop/small%20project%20s.html");
 		//}
 	//}
-	if(change)
-		{
-			window.location.replace("https://gabetaco2005.github.io/");
-		}
 	//the next 5-10 lines of code was adapted from https://www.javascripttutorial.net/web-apis/javascript-draw-line/
 	ctx.strokeStyle = topColor;
     // draw a red line
@@ -459,6 +448,10 @@ function restart()
 		else
 		{
 			ctx.fillStyle = "rgb(0,0,0)"
+		}
+		if(change)
+		{
+			window.location.replace("https://gabetaco2005.github.io/");
 		}
 	}
 	ctx.fillText("Restart",230, 400)
