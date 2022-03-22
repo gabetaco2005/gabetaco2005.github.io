@@ -1,0 +1,1033 @@
+<html>
+<head>
+    <style>
+    *{padding: 0; margin:0;}
+    canvas{ background: #eee; display: block; margin: 0 auto;}
+    </style>
+</head>
+<body>
+<canvas id= "myCanvas" width="800" height="600"></canvas>
+<script type="text/javascript">
+let canvas = document.getElementById("myCanvas");
+let ctx = canvas.getContext("2d");
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+canvas.addEventListener("mousemove", getPosition, false);
+canvas.addEventListener("mousedown", getMouseDown, false);
+canvas.addEventListener("mouseup", getMouseUp, false);
+let wW = window.innerWidth;
+let wH = window.innerHeight;
+ctx.canvas.width = wW;
+ctx.canvas.height = wH; 
+let fps = 60;
+let leftPressed = false;
+let rightPressed = false;
+var background = new Image();
+background.src = "NetherUpdateArtwork.jpg";
+var brickBreakerImg = new Image();
+brickBreakerImg.src = "brickbrakerimg.png";
+var worldGeneraterImg = new Image();
+worldGeneraterImg.src = "worldGenerater.png";
+var towerDefenceImg = new Image();
+towerDefenceImg.src = "towerDefence.png";
+var gardianCrossImg = new Image();
+gardianCrossImg.src = "gardiancross.png";
+var pokemonImg = new Image();
+pokemonImg.src = "pokemonBack.png";
+var rambowImg = new Image();
+rambowImg.src = "rambowimg.png";
+var shapesImg = new Image();
+shapesImg.src = "shapesimg.png";
+var houseImg = new Image();
+houseImg.src = "house.png";
+var colorBoardImg = new Image();
+colorBoardImg.src = "colorboard.png";
+var sandboxImg = new Image();
+sandboxImg.src = "sandbox.png";
+var ticTacToeImg = new Image();
+ticTacToeImg.src = "tictactoe.png";
+var templeRunImg = new Image();
+templeRunImg.src = "templerun.png";
+var clockImg = new Image();
+clockImg.src = "clock.png";
+var leftRightCenterImg = new Image();
+leftRightCenterImg.src = "leftrightcenter.png";
+var APExamImg = new Image();
+APExamImg.src = "APexam.png";
+var numberGeneraterImg = new Image();
+numberGeneraterImg.src = "numbergenerater.png";
+var gateWoodPic = new Image();
+gateWoodPic.src = "pictureOfGatewood.png";
+var newProgram = new Image();
+newProgram.src = "blank.png";
+var pacMan = new Image();
+pacMan.src = "pacman.jif";
+var rickRolled = new Image();
+rickRolled.src = "rickRolled.gif";
+var mobileImg = new Image();
+mobileImg.src = "mobile.png";
+var desktopImg = new Image();
+desktopImg.src = "desktop.jpg";
+var rotateImg = new Image();
+rotateImg.src = "changeScreen.png";
+var gradiantImg = new Image();
+gradiantImg.src = "gradiantImg.png";
+var spaceShooterImg = new Image();
+spaceShooterImg.src = "spaceShooter.png";
+var GUI10Img = new Image();
+GUI10Img.src = "GUI10Img.png";
+var GUI15Img = new Image();
+GUI15Img.src = "GUI15Img.png";
+var GUI14Img = new Image();
+GUI14Img.src = "GUI14Img.png";
+var GUI06Img = new Image();
+GUI06Img.src = "GUI06Img.png";
+var newBrickImg = new Image();
+newBrickImg.src = "GUI06Img.png";
+let mouseX = -1;
+let mouseY = -1;
+let mouseIsDown = false;
+let appLink = "home";
+let originalX = mouseX;
+let originalY = mouseY;
+function point(x, y) {
+	this.x = x;
+	this.y = y;
+}
+function getPosition(event) {
+	mouseX = event.x - canvas.offsetLeft;
+	mouseY = event.y - canvas.offsetTop;
+}
+function getMouseDown(e) {
+	mouseIsDown = true;
+	btn1.handleMouseClick();
+	btn2.handleMouseClick();
+	btn3.handleMouseClick();
+	btn4.handleMouseClick();
+	btn5.handleMouseClick();
+	btn6.handleMouseClick();
+	btn7.handleMouseClick();
+	btn8.handleMouseClick();
+	btn9.handleMouseClick();
+	btn10.handleMouseClick();
+	btn11.handleMouseClick();
+	/*btn12.handleMouseClick();
+	btn13.handleMouseClick();
+	btn14.handleMouseClick();
+	btn15.handleMouseClick();
+	btn16.handleMouseClick();
+	btn17.handleMouseClick();
+	btn18.handleMouseClick();
+	btn19.handleMouseClick();
+	btn20.handleMouseClick();
+	btn21.handleMouseClick();
+	btn22.handleMouseClick();
+	btn23.handleMouseClick();
+	btn24.handleMouseClick();*/
+}
+function getMouseUp(e) {
+	mouseIsDown = false;
+}
+function keyDownHandler(e) {
+	if (e.keyCode == 37) 
+	{
+		leftPressed = true;
+		rightPressed = false;
+	} else if (e.keyCode == 39) 
+	{
+		rightPressed = true;
+		leftPressed = false;
+	}
+	if (e.keyCode == 65) {
+		leftPressed = true;
+		rightPressed = false;
+	} else if (e.keyCode == 68) 
+	{
+		rightPressed = true;
+		leftPressed = false;
+	}
+	if (e.keyCode == 100) {
+		leftPressed = true;
+		rightPressed = false;
+	} else if (e.keyCode == 102) 
+	{
+		rightPressed = true;
+		leftPressed = false;
+	}
+	if (e.keyCode == 16) 
+	{
+		shiftPresed = true;
+	}
+	if (e.keyCode == 69) 
+	{
+		ePressed = true;
+	}
+	if (e.keyCode == 38) 
+	{
+		leftPressed = true;
+		rightPressed = false;
+	} else if (e.keyCode == 40) 
+	{
+		rightPressed = true;
+		leftPressed = false;
+	}
+	else if(e.keyCode == 32)
+	{
+		spacePressed = true;
+	}
+	else if(e.keyCode == 13)
+	{
+		enterPressed = true;
+	}
+
+}
+function keyUpHandler(e) {
+	if (e.keyCode == 37) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 39) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 65) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 68) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 100) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 102) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 16) 
+	{
+		shiftPresed = false;
+	}
+	if (e.keyCode == 69) 
+	{
+		ePressed = false;
+	}
+	if (e.keyCode == 37) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 39) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 65) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 68) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 100) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 102) 
+	{
+		rightPressed = false;
+	}
+	if (e.keyCode == 38) 
+	{
+		leftPressed = false;
+	}
+	if (e.keyCode == 40) 
+	{
+		rightPressed = false;
+	}
+	if(e.keyCode == 32)
+	{
+		spacePressed = false;
+	}
+	if(e.keyCode == 13)
+	{
+		enterPressed = false;
+	}
+}
+        
+		///25 / 800 * wW, 25 / 600 * wH, 40 / 800 * wW, 60 / 600 * wH
+var Window = function(config)
+{
+	this.x = config.x || 200/800*wW;
+	this.y = config.y || 100/600*wH;
+	this.w = config.w || 800;
+	this.h = config.h || 600;
+	this.link = config.link || "";
+	this.clicked = config.clicked || false;
+	this.newX = config.newX || 200/800*wW;
+	this.newY = config.newY || 100/600*wH;
+}
+function move(x,y)
+{
+	if(mouseX > originalX)
+	{
+		originalX++;
+	}
+	if(mouseX < originalX)
+	{
+		originalX--;
+	}
+	if(mouseY > originalY)
+	{
+		originalY++;
+	}
+	if(mouseY < originalY)
+	{
+		originalY--;
+	}
+	return originalX,originalY;
+}
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 40 / 800 * wW;
+    this.height = config.height || 60 / 600 * wH;
+    this.label = config.label || "new app";
+    this.onClick = config.onClick || function() {};
+	this.image = config.image || newProgram;
+	this.link = config.link || "home";
+	this.leftTitle = config.leftTitle || "";
+	this.leftTitleX = config.leftTitleX || this.x+this.width+1/800*wW;
+	this.onHover = config.onHover || 
+	function() 
+	{
+		ctx.fillText(this.leftTitle,this.leftTitleX,this.y+this.height+11/600*wH);
+	};
+	
+};
+Button.prototype.draw = function() {
+    ctx.fillStyle = "rgb(0, 234, 255)";
+    ctx.fillStyle = "rgb(245, 245, 245)";
+    <!-- ctx.textAlign(400, 300); -->
+	ctx.font = 10/800*wW + "px Ariel";
+	//ctx.fillText(this.label, this.x, this.y+this.height+19);
+    ctx.drawImage(this.image,this.x,this.y,this.width,this.height)
+	ctx.fillStyle = "rgba(151, 151, 151,.75)";
+	ctx.fillRect(this.x, this.y+60/600*wH, 40/800*wW, 15/600*wH);
+	ctx.fillStyle = "rgba(255, 255, 255,1000)";
+	ctx.fillText(this.label, this.x, this.y+this.height+11/600*wH);
+	//ctx.fillText(this.label, mouseX, mouseY);
+	
+};
+//console.log(brickBreakerImg)//,10,10)
+Button.prototype.isMouseInside = function() {
+	
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+	this.onHover();
+};
+var btn1 = new Button({
+    x: 25/800* wW,
+    y: 25/600* wH,
+    label: "brick Bre",
+	image: brickBreakerImg,
+	link: "/brickBreaker",
+	leftTitle: "aker",
+	leftTitleX: this.x+this.width+10/800*wW,
+    onClick: function() {
+		appLink += this.link;
+		mouseIsDown = false;
+        //ctx.fillText("You made the right choice!", this.x, this.y+this.height);
+    }
+	
+});
+var btn2 = new Button({
+    x: 25 /800*wW,
+    y: 100/600*wH,
+    label: "worldGen",
+	image: worldGeneraterImg,
+	leftTitle: "erater",
+	leftTitleX: this.x+this.width+10/800*wW,
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("yes", this.x, this.y+this.height);
+    }
+});
+var btn3 = new Button({
+    x: 25 / 800 * wW,
+    y: 175 / 600 * wH,
+    label: "towerDefe",
+	image: towerDefenceImg,
+	leftTitle: "nce",
+	leftTitleX: this.x+this.width+10/800*wW,
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn4 = new Button({
+    x: 25/800* wW,
+    y: 250/600*wH,
+    label: "pokemon",
+	image: brickBreakerImg,
+	leftTitle: "",
+	leftTitleX: this.x+this.width+10/800*wW,
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn5 = new Button({
+    x: 25/800* wW,
+    y: 330/600*wH,
+    label: "rainbow",
+	image: brickBreakerImg,
+	leftTitle: "",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn6 = new Button({
+    x: 25/800* wW,
+    y: 410/600*wH,
+    label: "shapes",
+	image: brickBreakerImg,
+	leftTitle: "",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn7 = new Button({
+    x: 25/800* wW,
+    y: 490/600*wH,
+    label: "house",
+	image: brickBreakerImg,
+	leftTitle: "",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn8 = new Button({
+    x: 80/800* wW,
+    y: 25/600*wH,
+    label: "pacman",
+	image: brickBreakerImg,
+	leftTitle: "",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn9 = new Button({
+    x: 80/800* wW,
+    y: 175/600*wH,
+    label: "colorBoar",
+	image: brickBreakerImg,
+	leftTitle: "d",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn10 = new Button({
+    x: 80/800* wW,
+    y: 250/600*wH,
+    label: "sandbox",
+	image: brickBreakerImg,
+	leftTitle: "",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+var btn11 = new Button({
+    x: 80 / 800 * wW, 
+    y: 330 / 600*wH,
+    label: "tictactoe",
+	image: brickBreakerImg,
+	leftTitle: "erater",
+    onClick: function() {
+		mouseIsDown = false;
+        //ctx.fillText("Yay, you picked me!", this.x, this.y+this.height);
+    }
+});
+Window.prototype.draw = function() {
+    ctx.fillStyle = "rgb(245, 245, 245)";
+	ctx.font = 10/800*wW + "px Ariel";
+    ctx.drawRect(this.x,this.y,this.w,this.h);
+	ctx.fillText(this.label, this.x, this.y+this.height+11/600*wH);
+};
+var brickBreakerScreen = new Window({
+	link: "brickBreaker"
+	
+});
+var BBS = brickBreakerScreen;
+
+function home()
+{
+	ctx.drawImage(background, 0, 0, wW, wH);
+	//ctx.fillText("Please",mouseX, mouseY);
+	btn1.draw();
+	btn2.draw();
+	btn3.draw();
+	btn4.draw();
+	btn5.draw();
+	btn6.draw();
+	btn7.draw();
+	btn8.draw();
+	btn9.draw();
+	btn10.draw();
+	btn11.draw();
+}
+
+function brickBreaker(x,y)
+{
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+canvas.addEventListener("mousemove", getPosition, false);
+canvas.addEventListener("mouseup", getMouseUp, false);
+canvas.addEventListener("mousedown", getMouseDown, false);
+let wW =window.innerWidth;
+let wH =window.innerHeight;
+let num = 600;
+//ctx.canvas.height = num; 
+let fps = 60;
+let mouseX = -1;
+let mouseY = -1;
+let leftPressed = false;
+let rightPressed = false; 
+let spacePressed = false;
+let enterPressed = false;
+let mouseIsDown = false;
+let ballX = 400+x;
+let ballY = 400+y;
+let radius = 20;
+let ballXTheta = 5;
+let ballYTheta = 5;
+let paddleX = 500+x;
+let paddleY = 580+y;
+let paddleW = 100;
+let paddleH = 10;
+let blocks = [];
+let score = 0;
+let HighScore = [];
+let fastBall = false;
+let fastPower = false;
+let brickGame = false;
+let brickRestartColor = "rgb(100,100,100)";
+let moveP = 7;
+let randColer = 30;
+let randColer1 = 10;
+let brickBreakerRestart = false;
+let brickWait = 1;
+function getMouseDown(e) {
+	mouseIsDown = true;
+}
+function getMouseUp(e) {
+	mouseIsDown = false;
+}
+function getPosition(event){
+  mouseX = event.x - canvas.offsetLeft;
+  mouseY = event.y - canvas.offsetTop;
+}
+function keyDownHandler(e){
+    if(e.keyCode == 37)
+    {
+        leftPressed = true;
+    }
+    else if(e.keyCode == 65)
+    {
+        leftPressed = true;
+    }
+    else if(e.keyCode == 39)
+    {
+        rightPressed = true;
+    }
+    else if(e.keyCode == 68)
+    {
+        rightPressed = true;
+    }
+	else if(e.keyCode == 32)
+    {
+        spacePressed = true;
+    }
+	else if(e.keyCode == 13)
+    {
+        enterPressed = true;
+    }
+}
+function keyUpHandler(e){
+    if(e.keyCode == 37)
+    {
+        leftPressed = false;
+    }
+    if(e.keyCode == 65)
+    {
+        leftPressed = false;
+    }
+    if(e.keyCode == 39)
+    {
+        rightPressed = false;
+    }
+    if(e.keyCode == 68)
+    {
+        rightPressed = false;
+    }
+	if(e.keyCode == 32)
+    {
+        spacePressed = false;
+    }
+	if(e.keyCode == 13)
+    {
+        enterPressed = false;
+    }
+}
+function resetBoard() {
+	if (reset == true) {
+		//drawBlocks();
+		//drawBall();
+		//drawPaddle();
+		//drawScore();
+		//drawBlocks();
+		//brickCollision();
+		//movement();
+		//drawTop();
+		brickGame = false;
+		//youHaveWon = false;
+		//paddlX = 350+x;
+		reset = false;
+		//ballXTheta = 1;
+		//ballYTheta = 1;
+		//brickWait = 1;
+		//score = 0;
+	}
+}
+function Block(x, y, r, g, b, hit = false,w,h) {
+	this.x = x;
+	this.y = y;
+	this.r = r;
+	this.g = g;
+	this.b = b;
+	this.hit = hit;
+	this.w = w;
+	this.h = h;
+}
+let colorShift = 0;
+function setBricks() {
+	for (let y = 0; y < 15; y++) {
+		for (let x = 0; x < 11; x++) {
+			if ((y + 1) % 5 == 0) {
+				colorShift++;
+			}
+			colorVal = 0;
+			let r = 0;
+			let g = 0;
+			let b = 0;
+			if (colorShift == 0) {
+				r = (x * 22);
+			}
+			if (colorShift == 1) {
+				g = (x * 22);
+			}
+			if (colorShift == 2) {
+				b = (x * 22);
+			}
+			let y1 = 75 + (y * 20);
+			let x1 = 15 + (x * 70);
+			r = Math.floor(Math.random() * 256);
+			g = Math.floor(Math.random() * 256);
+			b = Math.floor(Math.random() * 256);
+			a = Math.floor(Math.random() * 256);
+			d = Math.floor(Math.random() * 256);
+			c = Math.floor(Math.random() * 256);
+			blocks.push(new Block(x1, y1, a, b, c, false,65,15));
+		}
+	}
+}
+function drawBlocks() {
+	for (let a = 0; a < blocks.length; a++) {
+		if (blocks[a].hit == false) {
+			let r = blocks[a].r;
+			let g = blocks[a].g;
+			let b = blocks[a].b;
+			ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+			ctx.fillRect(blocks[a].x+x, blocks[a].y+y, blocks[a].w, blocks[a].h);
+			while (brickBreakerRestart) {
+				a = 0;
+				brickBreakerRestart = false;
+			}
+		}
+	}
+}
+function drawScore() {
+	ctx.fillStyle = (" rgb(100,100,100");
+	ctx.font = "50px Arial";
+	ctx.fillText("Score:" + score, 550+x, 50+y);
+	if (score > 165) {
+		score = 165;
+	}
+}
+function movement() {
+	if (leftPressed == true && (paddleX) > 0) {
+		paddleX -= moveP;
+	} else if (rightPressed == true && (paddleX + paddleW) < 800) {
+		paddleX += moveP;
+	}
+	ballX += ballXTheta;
+	ballY += ballYTheta;
+}
+function drawBall(r, g, b) {
+	ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+	ctx.beginPath();
+	ctx.arc(ballX, ballY, radius, 0, 2 * Math.PI);
+	ctx.closePath();
+	ctx.fill();
+}
+function drawPaddle(r, g, b) {
+	ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+	ctx.fillRect(paddleX+x, paddleY+y, paddleW, paddleH);
+}
+function playSound(source) {
+	let sound = new Audio();
+	sound.src = source;
+	playSound();
+}
+let youHaveWon = false;
+function youWin() {
+	if (score == 165) {
+		ctx.fillStyle = "rgb(100,100,100";
+		ctx.font = "100px Arial";
+		ctx.fillText("YOU WIN", 100+x, 300+y);
+		youHaveWon = true;
+		brickGame = false;
+		ctx.fillStyle = brickRestartColor;
+		ctx.font = " 80px Arial";
+		ctx.fillText("restart", 260+x, 400+y);
+		if (mouseX >= 265+x && mouseY > 340+y && mouseX <= 485+x && mouseY <= 400+y) 
+		{
+			brickRestartColor = "rgb(255,0,0)";
+			
+			if (mouseIsDown || enterPressed) 
+			{
+				reset = true;
+				mouseIsDown = false;
+			}
+		} 
+		else 
+		{
+			brickRestartColor = "rgb(100,100,100)";
+		}
+	}
+}
+function brickCollision() {
+	<!-- if (ballX - radius <= 0+x || ballX + radius >= 800+x) { -->
+		<!-- ballXTheta = ballXTheta * -1; -->
+	<!-- } -->
+	<!-- if (ballY + radius >= 600+y) { -->
+		<!-- brickGame = true; -->
+	<!-- } -->
+	<!-- if (ballY - radius <= 65+y) { -->
+		<!-- ballYTheta = ballYTheta * -1; -->
+	<!-- } -->
+	<!-- if(ballX > 800 + x) -->
+	<!-- { -->
+		<!-- ballX = (800+x) - (radius*2); -->
+	<!-- } -->
+	if(ballX < x)
+	{
+		ballX = x+(radius*2);
+		ballXTheta *= -1;
+	}
+	if(ballY < y)
+	{
+		ballY = y+(radius*2);
+		ballYTheta *= -1;
+	}
+	if(ballY >y+610)
+	{
+		ballY = y+500-(radius*2)
+	}
+	if(ballX > x+800)
+	{
+		ballX = x+700-(radius*2)
+	}
+	if(ballX + radius == 800+x)
+	{
+		ballXTheta *=-1;
+	}
+	if(ballY + radius == 600+y)
+	{
+		ballYTheta *=-1;
+	}
+	if(ballY - radius == 65+y)
+	{
+		ballYTheta *= -1;
+	}
+	if(ballX - radius == x)
+	{
+		ballXTheta *=-1;
+	}
+	<!-- if (ballX + radius >= paddleX && ballX + radius <= paddleX + paddleW &&  -->
+		<!-- ballY + radius >= paddleY && ballY + radius <= paddleY + paddleH)  -->
+	<!-- { -->
+		<!-- ballYTheta = ballYTheta * -1; -->
+		<!-- if (ballXTheta <= 0) { -->
+			<!-- ballXTheta -= .1; -->
+		<!-- } else { -->
+			<!-- ballXTheta += .1; -->
+		<!-- } -->
+		<!-- if (ballYTheta <= 0) { -->
+			<!-- ballYTheta -= .1; -->
+		<!-- } else { -->
+			<!-- ballYTheta += .1; -->
+		<!-- } -->
+		<!-- moveP += .1; -->
+	<!-- } -->
+	<!-- if(ballX + radius > 800+x || ballX - radius < 0+x) -->
+	<!-- { -->
+		<!-- ballXTheta = -1 * ballXTheta; -->
+	<!-- } -->
+	<!-- if(ballY + radius > 600+y || ballY - radius < 0+y && ballY < 610+y) -->
+	<!-- { -->
+		<!-- ballYTheta = -1 * ballYTheta; -->
+	<!-- } -->
+	<!-- if(ballY > 600+y) -->
+	<!-- { -->
+		<!-- gameOver = true; -->
+	<!-- } -->
+	<!-- if(ballX > paddleX && ballX < paddleX + paddleW && ballY + radius > paddleY) -->
+	<!-- { -->
+		<!-- ballYTheta *= -1; -->
+	<!-- } -->
+	for (let a = 0; a < blocks.length; a++) {
+		let cx = ballX;
+		let cy = ballY;
+		let testX = cx;
+		let testY = cy;
+		let rx = blocks[a].x+x;
+		let ry = blocks[a].y+y;
+		let rw = 65;
+		let rh = 15;
+		if (cx < rx) testX = rx;
+		else if (cx > rx + rw) testX = rx + rw;
+		if (cy < ry) testY = ry;
+		else if (cy > ry + rh) testY = ry + rh;
+		let distX = cx - testX;
+		let distY = cy - testY;
+		let distance = Math.sqrt((distX * distX) + (distY * distY));
+		if (distance <= radius && blocks[a].hit != true) {
+			blocks[a].hit = true;
+			score++;
+			ballYTheta = ballYTheta * -1;
+		}
+		
+	}
+}
+let reset = false;
+function brickGameOver() {
+	ctx.fillStyle = "rgb(100,100,100)";
+	ctx.font = "100px Arial";
+	ctx.fillText("GAME OVER", 100+x, 300+y);
+	ctx.fillStyle = brickRestartColor;
+	ctx.font = " 80px Arial";
+	ctx.fillText("Restart", 260+x, 400+y);
+	if (mouseX >= 265+x && mouseY > 340+y && mouseX <= 485+x && mouseY <= 400+y || enterPressed) {
+		brickRestartColor = "rgb(255,0,0)";
+		if (mouseIsDown || enterPressed) {
+			drawBlocks();
+			ballY = 400+y;
+			ballX = 400+x;
+			drawBall();
+			drawPaddle();
+			drawScore();
+			drawBlocks();
+			brickGame = false;
+			youHaveWon = false;
+			ballXTheta = 5;
+			ballYTheta = 5;
+			brickWait = 1;
+			paddlX = 350+x;
+			score = 0;
+			mouseIsDown = false;
+			enterPressed  = false;
+			mouseY = 600+y;
+		}
+	} else {
+		brickRestartColor = "rgb(100,100,100)";
+	}
+}
+function drawTop() {
+	ctx.lineWidth = 5;
+	ctx.fillStyle = "rgb(0,0,0)";
+	ctx.beginPath();
+	ctx.moveTo(0+x, 65+y);
+	ctx.lineTo(800+x, 65+y);
+	ctx.stroke();
+	ctx.closePath();
+	let topColor = "rgb(0,0,0)";
+}
+let topColor = "rgb(0,0,0)";
+
+function drawTowerTop() {
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = topColor;
+	ctx.beginPath();
+	ctx.moveTo(760+x, 10+y);
+	ctx.lineTo(790+x, 40+y);
+	ctx.stroke();
+	ctx.closePath();
+	ctx.beginPath();
+	ctx.moveTo(790+x, 10+y);
+	ctx.lineTo(760+x, 40+y);
+	ctx.stroke();
+	ctx.closePath();
+	if (mouseX >= 760+x && mouseX <= 790+x && mouseY >= 10+y && mouseY <= 40+y) {
+		topColor = "rgb(255,0,0)";
+		if (mouseIsDown) {
+			ctx.canvas.width = window.innerWidth;
+			ctx.canvas.height = window.innerHeight;
+			screenNum = 1;
+			if (!brokeGame) {
+				hasStarted = false;
+			}
+		}
+	} else {
+		topColor = "rgb(0,0,0)";
+	}
+}
+
+function draw() {
+	setTimeout(function() {
+		requestAnimationFrame(draw);
+		home();
+		//wW =window.innerWidth;
+		//wH =window.innerHeight;
+		//ctx.canvas.height = 600;
+		//ctx.canvas.width = 800;
+		//ctx.clearRect(0, 0, 800, num);
+		//ctx.canvas.height = num;
+		if(mouseX >= 0+x && mouseX <=800+x &&
+			mouseY >=0+y && mouseY <= 65+y )//&& mouseIsDown)
+		{
+			x = mouseX-50;
+			y = mouseY-20;
+		}
+		if(spacePressed)
+		{
+			paddleX = ballX - 50
+		}
+		ctx.fillStyle = "rgb(245,245,245)";
+		ctx.fillRect(0+x,0+y,800,610);
+		
+		
+		let matched = window.matchMedia('(prefers-color-scheme: dark)').matches;
+		if (matched) 
+		{
+			document.body.style.backgroundColor = "black";
+		} 
+		else 
+		{
+			document.body.style.backgroundColor = "white";
+		}
+		drawTop();
+		youWin();
+		if (brickGame == false && youHaveWon == false) {
+			drawBall();
+			drawPaddle();
+			drawBlocks();
+			movement();
+			brickCollision();
+			if (brickWait == 1) {
+				setBricks();
+				brickWait = 0;
+			}
+		} 
+		else 
+		{
+			if (youHaveWon) 
+			{
+			} 
+			else 
+			{
+				brickGameOver();
+				resetBoard();
+			}
+		}
+		drawScore();
+		if(wW < wH)
+		{
+			num = 700;
+			ctx.fillStyle = "rgb(0,0,0)";
+			ctx.font = "200px Ariel" 
+			ctx.fillText("<",10+x,690+y);
+			ctx.fillText(">",690+x,690+y);
+			if(mouseX >= 10+x && mouseX <= 150+x &&
+				mouseY >= 500+y)
+			{
+				leftPressed = true;
+			}
+			else
+			{
+				leftPressed = false;
+			}
+			if(mouseX >= 650+x && mouseX <= 800+x &&
+				mouseY >= 500+y)
+			{
+				rightPressed = true;
+			}
+			else
+			{
+				rightPressed = false;
+				
+			}
+			if(brickGame)
+			{
+				if(mouseY < 500+y)
+				{
+					enterPressed = true;
+				}
+			}
+			spacePressed = true;
+		}
+		else
+		{
+			num = 600;
+		}
+	 }, 1000 / fps);
+}
+draw();	
+}
+let ran = true;
+function drawd()
+{
+	if(appLink == "home")
+	{
+		home();
+	}
+	if(appLink == "home/brickBreaker")
+	{
+		if(ran)
+		{
+			//home();//ctx.clearRect(0, 0, 800, 600);
+			brickBreaker(10,10);
+			ran = false;
+		}
+	}
+}
+
+setInterval(drawd,10);
+</script>
+</body>
+</html>
