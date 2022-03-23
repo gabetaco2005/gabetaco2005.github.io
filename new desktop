@@ -757,11 +757,14 @@ function brickCollision() {
 	}
 	if(ballY >y+610)
 	{
-		ballY = y+500-(radius*2)
+		ballY = y+590-(radius*2)
+		ballYTheta *= -1;
+		//gameover
 	}
 	if(ballX > x+800)
 	{
 		ballX = x+700-(radius*2)
+		ballXTheta *= -1;
 	}
 	if(ballX + radius == 800+x)
 	{
