@@ -5,507 +5,812 @@
     canvas{ background: #eee; display: block; margin: 0 auto;}
     </style>
 </head>
-
 <body>
 <canvas id= "myCanvas" width="800" height="600"></canvas>
 <script type="text/javascript">
 let canvas = document.getElementById("myCanvas");
 let ctx = canvas.getContext("2d");
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
+<!-- document.addEventListener("keydown", keyDownHandler, false); -->
+<!-- document.addEventListener("keyup", keyUpHandler, false); -->
 canvas.addEventListener("mousemove", getPosition, false);
 canvas.addEventListener("mouseup", getMouseUp, false);
 canvas.addEventListener("mousedown", getMouseDown, false);
-let wW = window.innerWidth;
-let wH = window.innerHeight;
-let fps = 60;
-let ballX = 400;
-let ballY = 400;
-let radius = 20;
-let ballXTheta = 1.5;
-let ballYTheta = 1.5;
-let paddleX = 500;
-let paddleY = 580;
-let paddleW = 100;
-let paddleH = 10;
-let leftPressed = false;
-let rightPressed = false;
-let blocks = [];
-let score = 0;
-let HighScore = [];
-let DownPressed = false;
-let UpPressed = false;
-let APressed = false;
-let DPressed = false;
-let SPressed = false;
-let fastBall = false;
-let fastPower = false 
-let brickGame = false;
+let wW =window.innerWidth;
+let wH =window.innerHeight;
+let fps = 60
+let screenNum = "start";
+let mouseX = -1;
+let mouseY = -1;
 let mouseIsDown = false;
-let mouseX = 0;
-let mouseY = 0;
-let paddleSpeed = 7.0;
-
-function getPosition(event)
-{
-	mouseX = event.x - canvas.offsetLeft;
-	mouseY = event.y - canvas.offsetTop;
-	//collision(x,y);
+function point(x, y) {
+	this.x = x;
+	this.y = y;
 }
 
-function getMouseDown(e)
-{
+function getPosition(event) {
+	mouseX = event.x - canvas.offsetLeft;
+	mouseY = event.y - canvas.offsetTop;
+}
+
+function getMouseDown(e) {
 	mouseIsDown = true;
 }
 
-function getMouseUp(e)
-{
+function getMouseUp(e) {
 	mouseIsDown = false;
 }
-
-function keyDownHandler(e)
+function adam(chooseMap)
 {
-	if(e.keyCode == 37)
+{ //setup stuff
+var W = 800, H = 600;
+var mouseX;
+var mouseY;
+var mouseIsDown = 0;
+var wPressed = false;
+var aPressed = false;
+var sPressed = false;
+var dPressed = false;
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+document.addEventListener("mousemove", mouseMoveHandler, false);
+canvas.addEventListener("mousedown", getPosition, false);
+canvas.addEventListener("mouseup", getPosition2, false);
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+function mouseMoveHandler(e) {
+    mouseX = e.clientX - canvas.offsetLeft;
+    mouseY = e.clientY - canvas.offsetTop;
+}
+function getPosition2(event){
+	mouseIsDown = 0;
+}
+function getPosition(event)
+{
+	if(mouseIsDown != 2)
 	{
-		leftPressed = true;
-		rightPressed = false;
-	}
-	else if(e.keyCode == 39)
-	{
-		rightPressed = true;
-		leftPressed = false;
-	}
-	if(e.keyCode == 65)
-	{
-		leftPressed = true;
-		rightPressed = false;
-	}
-	else if(e.keyCode == 68)
-	{
-		rightPressed = true;
-		leftPressed = false;
-	}
-	if(e.keyCode == 100)
-	{
-		leftPressed = true;
-		rightPressed = false;
-	}
-	else if(e.keyCode == 102)
-	{
-		rightPressed = true;
-		leftPressed = false;
+		mouseIsDown = 1;
 	}
 }
-	
-function keyUpHandler(e)
+function keyDownHandler(e)
 {
-	if(e.keyCode == 37)
+	if(e.keyCode == 87)
 	{
-		leftPressed = false;
-	}
-	if(e.keyCode == 39)
-	{
-		rightPressed = false;
+		wPressed = true;
 	}
 	if(e.keyCode == 65)
 	{
-		leftPressed = false;
+		aPressed = true;
+	}
+	if(e.keyCode == 83)
+	{
+		sPressed = true;
 	}
 	if(e.keyCode == 68)
 	{
-		rightPressed = false;
-	}
-	if(e.keyCode == 100)
-	{
-		leftPressed = false;
-	}
-	if(e.keyCode == 102)
-	{
-		rightPressed = false;
+		dPressed = true;
 	}
 }
-
-function Block(x, y, r, g, b, hit = false) 
+function keyUpHandler(e)
 {
-    this.x = x;
-    this.y = y;
-	this.r = r;
-	this.g = g;
-	this.b = b;
-	this.hit = hit;
-}
-
- 
- 
-
-let colorShift = 0;
-for(let y = 0; y < 15; y++)
-{
-    for(let x = 0; x < 11; x++)
-    {
-      if((y+1)%5 == 0)
-		{
-		colorShift++;
-		}
-		colorVal = 0;
-		let r = 0;
-		let g = 0;
-		let b = 0;
-		 if(colorShift == 0) 
-		 { 
-		 r = (x * 22);
-		 } 
-		 if(colorShift == 1) 
-		 { 
-		 g = (x * 22); 
-		 } 
-		if(colorShift == 2) 
-		 { 
-		b = (x * 22); 
-		 } 
-		let y1 = 75 + (y * 20); 
-        let x1 = 15 + (x * 70); 
-		r = Math.floor(Math.random() * 200);
-		g = Math.floor(Math.random() * 200);
-		b = Math.floor(Math.random() * 200);
-		
-		a = Math.floor(Math.random() * 200);
-		d = Math.floor(Math.random() * 200);
-		c = Math.floor(Math.random() * 200);
-        blocks.push(new Block(x1, y1, a, b, c));
-		
-    }
-}
-
- 
-
-function drawBlocks()
-{
-    for(let a = 0; a < blocks.length; a++)
-    {
-	    if(blocks[a].hit == false)
-		{
-		let r = blocks[a].r;
-		let g = blocks[a].g;
-		let b = blocks[a].b;
-        ctx.fillStyle = "rgb(" + r + "," + g + "," + b +")";
-        ctx.fillRect(blocks[a].x, blocks[a].y, 65, 15);
-		}
-    }
-}
-
- 
-
-
-
-function drawScore()
-{
-     ctx.fillStyle = (" rgb(100,100,100");
-	 ctx.fillText("Score:" + score, 600, 50);
-	 ctx.font = "50px Ariel";
-	 
-}
-
-function movement()
-{
-    if(leftPressed == true && (paddleX) >0)
-    {
-        paddleX -= paddleSpeed;
-    }
-    else if(rightPressed == true && (paddleX + paddleW) < 800)
-    {
-        paddleX += paddleSpeed;
-    }
-    
-    ballX += ballXTheta;
-    ballY += ballYTheta;
-}
-
-function Stop()
-{
-if (SPressed == true)
-{
-let (paddleX == 0);
-}
- ballX += ballXTheta;
-    ballY -= ballYTheta;
-}
-
-function Movement()
-{
-    if(UpPressed == true && (paddleX) >0)
-    {
-        paddleX -= paddleSpeed;
-    }
-    else if(DownPressed == true && (paddleX + paddleW) < 800)
-    {
-        paddleX += paddleSpeed;
-    }
-    
-    ballX += ballXTheta;
-    ballY += ballYTheta;
-}
- 
-function MovementAD()
-{
-    if(DPressed == true && (paddleX) >0)
-    {
-        paddleX -= paddleSpeed;
-    }
-    else if(APressed == true && (paddleX + paddleW) < 800)
-    {
-        paddleX += paddleSpeed;
-    }
-    
-    ballX += ballXTheta;
-    ballY += ballYTheta;
-}
-
-function drawBall(r, g, b)
-{
-    ctx.fillStyle = "rgb(" + r + "," + g + "," + b +")";
-    ctx.beginPath();
-    ctx.arc(ballX, ballY, radius, 0, 2*Math.PI);
-    ctx.closePath();
-    ctx.fill();
-}
-
-function drawFastBall()
-{
-    if(fastPower = paddleW || paddleH)
+	if(e.keyCode == 87)
 	{
-	ctx.fillStyle = "rgb(" + r + "," + g + "," + b +")";
-    ctx.beginPath();
-    ctx.arc(500, 500, 5, 0, 2*Math.PI);
-    ctx.closePath();
-    ctx.fill();
+		wPressed = false;
 	}
-	if(fastPower = true)
+	if(e.keyCode == 65)
 	{
-		let fastBall = false;
+		aPressed = false;
+	}
+	if(e.keyCode == 83)
+	{
+		sPressed = false;
+	}
+	if(e.keyCode == 68)
+	{
+		dPressed = false;
 	}
 }
-
-
-function drawPaddle(r, g, b)
-{
-    ctx.fillStyle = "rgb(" + r + "," + g + "," + b +")";
-    ctx.fillRect(paddleX, paddleY, paddleW, paddleH);
 }
 
-function playSound(source)
+{ //kritikal functions
+
+function Btn(x,y,w,h,hover,pressed,color,hoverColor,text,textColor,textHoverColor,font)
 {
-   var sound = new Audio();
-   sound.src = source;
-   playSound();
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+	this.hover = hover;
+	this.pressed = pressed;
+	this.color = color;
+	this.hoverColor = hoverColor;
+	this.text = text;
+	this.textColor = textColor;
+	this.textHoverColor = textHoverColor;
+	this.font = font;
 }
- 
-<!-- function drawHighScore() -->
-<!-- {  -->
-     <!-- if(score >= HighScore)	  -->
-	 <!-- { -->
-	<!-- let HighScore = score -->
-	<!-- ctx.fillText("HighScore:" (100, 50)); -->
-	 <!-- ctx.fillStyle = (" rgb(100,100,100)"); -->
-	 <!-- ctx.font = "50px Ariel"; -->
-	 <!-- } -->
-<!-- }  -->
 
-<!-- function test() -->
-<!-- { -->
-<!-- ctx.fillText("HighScore:" (100, 50)); -->
-<!-- ctx.fillStyle = (" rgb(100,100,100"); -->
-<!-- ctx.font = "50px Ariel"; -->
-<!-- } -->
+var btns = [];
 
-function youWin()
+//btns.push(new Btn(0,0,120,80,false,false,"red","white","cool","white","red","60px Arial"));
+
+function drawBtns()
 {
-    if(blocks[a] = 0 )
+	for(var a=0; a<btns.length; a++)
 	{
-	ctx.fillStyle = (" rgb(100,100,100");
-	 ctx.fillText("YOU WIN", 100, 300);
-	 ctx.font = "100px Ariel";
-	 }
-}
-
-function collision()
-{
-    if(ballX - radius <= 0 || ballX + radius >= 800)
-    {
-        ballXTheta = ballXTheta * -1;
-    }
-    if(ballY - radius <= 70)
-    {
-        ballYTheta = ballYTheta * -1;
-    }
-    if(ballX + radius  >= paddleX && 
-        ballX + radius   <= paddleX + paddleW &&
-        ballY + radius >= paddleY && 
-        ballY + radius  <= paddleY + paddleH)
-        {
-            ballYTheta = ballYTheta * -1;
-			//playSound("d1.wav")
-        }
-		if(ballY + radius <= 30)
-        {
-            ballYTheta = ballYTheta * -1;
-			//playSound("d1.wav")
-        }
-		
-		for(let a = 0; a < blocks.length; a++)
+		if(pointRect(pX,pY,btns[a].x,btns[a].y,btns[a].w,btns[a].h))
 		{
-		//the following 22 lines is adapted from http://www.jeffreythompson.org/collision-detection/circle-rect.php
-		let cx = ballX;
-		let cy = ballY;
-		let testX = cx;
-		let testY = cy;
-		let rx = blocks[a].x;
-		let ry = blocks[a].y;
-		let rw = 65;
-		let rh = 15
-		// which edge is closest?
-		if (cx < rx)         testX = rx;      // test left edge
-		else if (cx > rx+rw) testX = rx+rw;   // right edge
-		if (cy < ry)         testY = ry;      // top edge
-		else if (cy > ry+rh) testY = ry+rh;   // bottom edge
-
-		// get distance from closest edges
-		let distX = cx-testX;
-		let distY = cy-testY;
-		let distance = Math.sqrt( (distX*distX) + (distY*distY) );
-
-		// if the distance is less than the radius, collision!
-		if(fastBall == true)
-		{
-			ballXTheta = 3;
-			ballYTheta = 3;
-		} 
-		else if(distance <= radius && blocks[a].hit != true) 
-		{ 
-			blocks[a].hit = true;
-			score++;
-			//playSound("pop.wav")
-			ballYTheta = ballYTheta * -1;
-			ballXTheta += .01;
-			paddleSpeed += .01;
-			//ballXTheta = ballXTheta * -1;
-		}
-		
-		}
-  
-		if(ballY + radius >= 600)
-		{
-			ctx.fillStyle = " rgb(0,0,0";
-			ctx.fillText("GAME OVER", 100, 300);
-			ctx.font = "100px Ariel";
-			brickGame = true;
-		}
-}
-let change = false;
-function drawTop()
-{
-	ctx.lineWidth = 5;
-	ctx.strokeStyle = "rgb(0,0,0)"
-	ctx.beginPath();
-   	ctx.moveTo(0, 65);
-   	ctx.lineTo(800, 65);
-    	ctx.stroke();
-	ctx.closePath();
-	let topColor = "rgb(0,0,0)"
-	//if(mouseX >= 5 && mouseX <= 32 && mouseY >= 5 && mouseY <= 32)
-	//{
-	//topColor = "rgb(255,0,0)"
-		//if(mouseIsDown)
-		//{
-		//	window.location.replace("file:///C:/Users/gaber/OneDrive%20-%20Eagle%20Mountain%20-%20Saginaw%20I.S.D/Pictures/2020-02/Desktop/small%20project%20s.html");
-		//}
-	//}
-	//the next 5-10 lines of code was adapted from https://www.javascripttutorial.net/web-apis/javascript-draw-line/
-	ctx.strokeStyle = topColor;
-    // draw a red line
-	//ctx.beginPath();
-   // ctx.moveTo(5, 5);
-   // ctx.lineTo(32, 32);
-   // ctx.stroke();
-	//ctx.closePath();
-	//ctx.beginPath();
-   // ctx.moveTo(32, 5);
-   // ctx.lineTo(5, 32);
-   // ctx.stroke();
-	//ctx.closePath();
-}
-
-function restart()
-{
-	if(brickGame)
-	{
-		if(mouseX >= 230 && mouseY >= 332 && mouseX <= 510 && mouseY <= 400)
-		{
-			ctx.fillStyle = "rgb(255,0,0)"
+			btns[a].hover = true;
+			ctx.fillStyle = btns[a].hoverColor;
+			ctx.fillRect(btns[a].x,btns[a].y,btns[a].w,btns[a].h);
+			ctx.fillStyle = btns[a].textHoverColor;
+			ctx.font = btns[a].font;
+			ctx.fillText(btns[a].text,btns[a].x,btns[a].y+btns[a].h-20);
 			if(mouseIsDown)
 			{
-				change = true;
+				btns[a].pressed = true;
 			}
 		}
 		else
 		{
-			ctx.fillStyle = "rgb(0,0,0)"
-		}
-		if(change)
-		{
-			window.location.replace("https://gabetaco2005.github.io/");
+			ctx.fillStyle = btns[a].color;
+			ctx.fillRect(btns[a].x,btns[a].y,btns[a].w,btns[a].h);
+			ctx.fillStyle = btns[a].textColor;
+			ctx.font = btns[a].font;
+			ctx.fillText(btns[a].text,btns[a].x,btns[a].y+btns[a].h-20);
 		}
 	}
-	ctx.fillText("Restart",230, 400)
 }
-		
 
- 
+function pointRect(px,py,x,y,w,h)
+{
+	if(px >= x && px <= x + w &&
+	py >= y && py <= y + h)
+	{
+		return true;
+	}
+	return false;
+}
+
+function pointCirc(px,py,x,y,r)
+{
+	if(Math.sqrt(Math.pow(Math.abs(px-x),2)+Math.pow(Math.abs(py-y),2))<=r)
+	{
+		return true;
+	}
+	return false;
+}
+
+function rectRect(x1,y1,w1,h1,x2,y2,w2,h2)
+{
+	if(x1+w1 >= x2 && x1 <= x2+w2 &&
+	y1+h1 >= y2 && y1 <= y2+h2)
+	{
+		return true;
+	}
+	return false;
+}
+
+function distance(x1,y1,x2,y2)
+{
+	return(Math.sqrt(Math.pow(Math.abs(x1-x2),2)+Math.pow(Math.abs(y1-y2),2)))
+}
+
+function pointLine(x1,y1,x2,y2,x3,y3)
+{
+	let dist1 = distance(x1,y1,x3,y3);
+	let dist2 = distance(x2,y2,x3,y3);
+	let lineLength = distance(x1,y1,x2,y2);
+	if(dist1 + dist2 <= lineLength + 0.1)
+	{
+		return true;
+	}
+	return false;
+}
+
+function circCirc(x1,y1,r1,x2,y2,r2)
+{
+	if(distance(x1,y1,x2,y2)<=r1+r2)
+	{
+		return true;
+	}
+	return false;
+}
+
+function lineLine(x1,y1,x2,y2, x3,y3,x4,y4)
+{
+	var uA = ((x4-x3)*(y1-y3) - (y4-y3)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
+	var uB = ((x2-x1)*(y1-y3) - (y2-y1)*(x1-x3)) / ((y4-y3)*(x2-x1) - (x4-x3)*(y2-y1));
+	if (uA >= 0 && uA <= 1 && uB >= 0 && uB <= 1)
+	{
+		var intersectionX = x1 + (uA * (x2-x1));
+		var intersectionY = y1 + (uA * (y2-y1));
+		return [intersectionX,intersectionY];
+	}
+	return false;
+}
+
+function linePoint(x1,y1,x2,y2, px,py) {
+
+  let d1 = distance(px,py, x1,y1);
+  let d2 = distance(px,py, x2,y2);
+  let lineLen = distance(x1,y1, x2,y2);
+  let buffer = 0.1;
+  if (d1+d2 >= lineLen-buffer && d1+d2 <= lineLen+buffer) {
+    return true;
+  }
+  return false;
+}
+
+function lineCirc(x1,y1,x2,y2,cx,cy,r) {
+
+  let len = distance(x1,y1,x2,y2);
+  let dot = ( ((cx-x1)*(x2-x1)) + ((cy-y1)*(y2-y1)) ) / Math.pow(len,2);
+  let closestX = x1 + (dot * (x2-x1));
+  let closestY = y1 + (dot * (y2-y1));
+  let inside1 = pointCirc(x1,y1,cx,cy,r);
+  let inside2 = pointCirc(x2,y2,cx,cy,r);
+  let dist = distance(closestX,closestY,cx,cy);
+  let onSegment = linePoint(x1,y1,x2,y2, closestX,closestY);
+  if (!onSegment)
+  {
+	return false;
+  }
+
+  if (dist <= r) {
+    return [closestX,closestY];
+  }
+  if (inside1)
+  {  
+	return [x1,y1];
+  }
+  else if(inside2)
+  {
+	return [x2,y2];
+  }
+  return false;
+}
+
+}
+
+let playerX = 12;
+let playerY = 4;
+let playerRot = 270;
+let playerXV = 0;
+let playerYV = 0;
+let playerRad = .3;
+let playerSpeed = .06;
+
+let FOV = 90;
+let resolution = W;
+var renderDistance = 999;
+let yOffset = 0;
+
+let planes = [];
+let scale2D = 10;
+let wallSize = 1;
+<!-- let map = [ -->
+<!-- [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], -->
+<!-- [1,0,1,0,0,0,0,0,1,0,0,0,0,0,1], -->
+<!-- [1,0,1,0,1,0,1,1,1,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,1,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,1,1,0,1,1,1,0,1,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1], -->
+<!-- [1,0,1,1,0,1,1,1,1,0,0,0,0,0,1], -->
+<!-- [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] -->
+<!-- ]; -->
+
+<!-- let map = [ -->
+<!-- [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,1,1,0,0,0,0,0,0,0,1], -->
+<!-- [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,1], -->
+<!-- [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] -->
+<!-- ]; -->
+
+let map = chooseMap;
+
+function Point(x,y)
+{
+	this.x = x;
+	this.y = y;
+}
+
+function Plane(x1,y1,x2,y2,color)
+{
+	this.x1 = x1;
+	this.y1 = y1;
+	this.x2 = x2;
+	this.y2 = y2;
+	this.color = color;
+}
+
+function convertMap()
+{
+	for(var a = 0; a < map.length; a++)
+	{
+		for(var b = 0; b < map[a].length; b++)
+		{
+			if(map[a][b]==1)
+			{
+				if(a==0 || map[a-1][b]==0)
+				{
+					planes.push(new Plane(wallSize*b,wallSize*a,wallSize*b+wallSize,wallSize*a,"#9C9C9C"));
+				}
+				if(b==0 || map[a][b-1]==0)
+				{
+					planes.push(new Plane(wallSize*b,wallSize*a,wallSize*b,wallSize*a+wallSize,"#909090"));
+				}
+				if(b==map[a].length-1 || map[a][b+1]==0)
+				{
+					planes.push(new Plane(wallSize*b+wallSize,wallSize*a,wallSize*b+wallSize,wallSize*a+wallSize,"#909090"));
+				}
+				if(a==map.length-1 || map[a+1][b]==0)
+				{
+					planes.push(new Plane(wallSize*b,wallSize*a+wallSize,wallSize*b+wallSize,wallSize*a+wallSize,"#9C9C9C"));
+				}
+			}
+		}
+	}
+}
+
+convertMap();
+
+function drawPlanes()
+{	
+	ctx.fillStyle = "#757575";
+	ctx.fillRect(0,H/2,W,H/2,);
+	for(var a = 0; a<=resolution; a++)
+	{
+		var leftBound = FOV/2;
+		var x2 = playerX + Math.cos(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * renderDistance;
+		var y2 = playerY + Math.sin(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * renderDistance;
+		var dist=renderDistance+1;
+		var color;
+		for(let i = 0; i< planes.length; i++)
+		{
+			let thisHit=lineLine(playerX,playerY,x2,y2, planes[i].x1,planes[i].y1,planes[i].x2,planes[i].y2)
+			if(thisHit!=false)
+			{
+				if(distance(thisHit[0],thisHit[1],playerX,playerY)<dist)
+				{
+					dist=distance(thisHit[0],thisHit[1],playerX,playerY);
+					color = planes[i].color;
+				}
+			}
+		}
+		if(dist<renderDistance)
+		{
+			ctx.fillStyle = color;
+			ctx.fillRect(W/resolution*a,(H/2)-((600/dist)/2),W/resolution,600/dist);
+		}
+	}
+}	
+
+
+function drawPlayer2D()
+{
+	ctx.fillStyle = "green";
+	ctx.fillRect(600,400,200,200);
+
+	ctx.fillStyle = "red";
+	ctx.beginPath();
+	ctx.arc(700,500,playerRad*scale2D,0,2*Math.PI);
+	ctx.closePath();
+	ctx.fill();
+	
+	ctx.strokeStyle = "white";
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.moveTo(700,500);
+	ctx.lineTo(700 + Math.cos(Math.PI * (playerRot) / 180) * (20),500 + Math.sin(Math.PI * (playerRot) / 180) * (20));
+	ctx.closePath();
+	ctx.stroke();
+	
+	<!-- for(var a = 0; a<=resolution; a++) -->
+	<!-- { -->
+		<!-- var leftBound = FOV/2; -->
+		<!-- var x2 = playerX + Math.cos(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * renderDistance; -->
+		<!-- var y2 = playerY + Math.sin(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * renderDistance; -->
+		<!-- var dist=renderDistance+1; -->
+		<!-- for(let i = 0; i< planes.length; i++) -->
+		<!-- { -->
+			<!-- let thisHit=lineLine(playerX,playerY,x2,y2, planes[i].x1,planes[i].y1,planes[i].x2,planes[i].y2) -->
+			<!-- if(thisHit!=false) -->
+			<!-- { -->
+				<!-- if(distance(thisHit[0],thisHit[1],playerX,playerY)<dist) -->
+				<!-- { -->
+					<!-- dist=distance(thisHit[0],thisHit[1],playerX,playerY); -->
+				<!-- } -->
+			<!-- } -->
+		<!-- } -->
+		<!-- ctx.strokeStyle = "white"; -->
+		<!-- ctx.lineWidth = 1; -->
+		<!-- ctx.beginPath(); -->
+		<!-- ctx.moveTo(700,500); -->
+		<!-- ctx.lineTo(700 + Math.cos(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * (dist*scale2D),500 + Math.sin(Math.PI * (playerRot - leftBound + FOV/resolution*a) / 180) * (dist*scale2D)); -->
+		<!-- ctx.closePath(); -->
+		<!-- ctx.stroke(); -->
+	<!-- } -->
+}
+
+function drawPlanes2D()
+{
+	for(let i = 0; i<planes.length;i++)
+	{
+		if((planes[i].x1-playerX)*scale2D+700>600 && (planes[i].x1-playerX)*scale2D+700<800 && (planes[i].y1-playerY)*scale2D+500>400 && (planes[i].y1-playerY)*scale2D+500<600 &&
+		(planes[i].x2-playerX)*scale2D+700>600 && (planes[i].x2-playerX)*scale2D+700<800 && (planes[i].y2-playerY)*scale2D+500>400 && (planes[i].y2-playerY)*scale2D+500<600)
+		{
+			ctx.strokeStyle = "white";
+			ctx.lineWidth = 1;
+			ctx.beginPath();
+			ctx.moveTo((planes[i].x1-playerX)*scale2D+700,(planes[i].y1-playerY)*scale2D+500);
+			ctx.lineTo((planes[i].x2-playerX)*scale2D+700,(planes[i].y2-playerY)*scale2D+500);
+			ctx.closePath();
+			ctx.stroke();
+		}
+		
+		let closestPoint=lineCirc(planes[i].x1,planes[i].y1,planes[i].x2,planes[i].y2,playerX,playerY,playerRad);
+		if(closestPoint!=false)
+		{
+			let theta = (Math.atan2(playerY-closestPoint[1],playerX-closestPoint[0]))*(180/Math.PI);
+			playerY = closestPoint[1] + (playerRad)*Math.sin(theta * Math.PI / 180);
+			playerX = closestPoint[0] + (playerRad)*Math.cos(theta * Math.PI / 180);
+		}
+	}
+}
+
+let dragX;
+let dragY;
+function controls()
+{
+	playerXV = 0;
+	playerYV = 0;
+	if(wPressed)
+	{
+		playerYV += playerSpeed*Math.sin(playerRot * Math.PI / 180);
+		playerXV += playerSpeed*Math.cos(playerRot * Math.PI / 180);
+	}
+	if(sPressed)
+	{
+		playerYV -= playerSpeed*Math.sin(playerRot * Math.PI / 180);
+		playerXV -= playerSpeed*Math.cos(playerRot * Math.PI / 180);
+	}
+	if(aPressed)
+	{
+		playerYV += playerSpeed*Math.sin((playerRot-90) * Math.PI / 180);
+		playerXV += playerSpeed*Math.cos((playerRot-90) * Math.PI / 180);
+	}
+	if(dPressed)
+	{
+		playerYV -= playerSpeed*Math.sin((playerRot-90) * Math.PI / 180);
+		playerXV -= playerSpeed*Math.cos((playerRot-90) * Math.PI / 180);
+	}
+	if(mouseIsDown == 1)
+	{
+		mouseIsDown = 2;
+		dragX = mouseX;
+		dragY = mouseY;
+	}
+	if(mouseIsDown == 2)
+	{
+		var rotation = dragX - mouseX;
+		playerRot -= rotation;
+		dragX = mouseX;
+		
+		yOffset = dragY-mouseY;
+		dragY = mouseY;
+	}
+	playerX += playerXV;
+	playerY += playerYV;
+}
+
+function HUD()
+{
+	ctx.fillStyle = "red";
+	ctx.font = "20px Ariel";
+	ctx.fillText("N",50,17);
+	ctx.fillStyle = "white";
+	ctx.fillText("S",50,77);
+	
+	var cX = 57 + Math.cos(Math.PI * (playerRot) / 180) * 20;
+	var cY = 40 + Math.sin(Math.PI * (playerRot) / 180) * 20;
+	ctx.strokeStyle = "white";
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	ctx.moveTo(57,40);
+	ctx.lineTo(cX,cY);
+	ctx.stroke();
+	
+	ctx.strokeStyle = "white";
+	ctx.lineWidth = 2;
+	ctx.beginPath();
+	ctx.moveTo(W/2-10,H/2);
+	ctx.lineTo(W/2+10,H/2);
+	ctx.stroke();
+	
+	ctx.strokeStyle = "white";
+	ctx.lineWidth = 2;
+	ctx.beginPath();
+	ctx.moveTo(W/2,H/2-10);
+	ctx.lineTo(W/2,H/2+10);
+	ctx.stroke();
+	
+	<!-- ctx.fillText(Math.round(playerX)+","+Math.round(playerY),600,100); -->
+}
+
+function render()
+{
+	ctx.clearRect(0,0,W,H);
+	controls();
+	drawPlanes();
+	drawPlayer2D();
+	drawPlanes2D();
+	HUD();
+	requestAnimationFrame(render);
+}
+render();
+}
+let squares = [];
+let map = [
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+let tileD = 20;
+function drawMap() {
+for (let y = 0; y < map.length; y++) {
+	for (let x = 0; x < map[0].length; x++) {
+		if (map[y][x] == 1) {
+			ctx.fillStyle = "rgb(0,255,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+		}
+		if (map[y][x] == 2) {
+			ctx.fillStyle = "rgb(0,0,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+		}
+		if (map[y][x] == 3) {
+			ctx.fillStyle = "rgb(150,150,150)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+		}
+		if (map[y][x] == 4) {
+			ctx.fillStyle = "rgb(0,240,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+		}
+		if (map[y][x] == 10) {
+			ctx.fillStyle = "rgb(255,0,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+		}
+		if (map[y][x] == 11) {
+			ctx.fillStyle = "rgb(255,225,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+			radius = 150;
+		}
+		if (map[y][x] == 12) {
+			ctx.fillStyle = "rgb(255,255,255)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+			radius = 200;
+		}
+		if (map[y][x] == 13) {
+			ctx.fillStyle = "rgb(0,0,0)";
+			ctx.fillRect(0 + (x * tileD), 0 + (y * tileD), tileD, tileD);
+			radius = 250;
+		}
+	}
+}
+}
+let blockToPlace = 1;
+function placePieces() {
+            if (mouseX != -1 && mouseY != -1 && mouseIsDown) {
+                let mapRow = Math.floor(mouseY / 20);
+                let mapCol = Math.floor(mouseX / 20);
+                //if (map[mapRow][mapCol] == 4)  {
+                    if (blockToPlace == 1) {
+                        //if (gold >= 20) {
+                            map[mapRow][mapCol] = 1;
+                            //squares.push(new Square(mapCol * 12, mapRow * 12))//, 5, 5, 5, 100));
+                            //gold -= 20;
+							//ctx.fillRect(mapRow,mapCol,tileD,tileD)
+                           // mouseIsDown = false;
+                        }/* else {
+                            ctx.fillStyle = "rgba(0,0,0,.3)";
+                            ctx.fillText("NEED MORE GOLD", 300, 250);
+                            needgold = 1000;
+                        }
+                    }
+                    if (blockToPlace == 1) {
+                        if (gold >= 20) {
+                            map[mapRow][mapCol] = 10;
+                            towers.push(new Tower(mapCol * 12, mapRow * 12, 5, 5, 5, 100));
+                            gold -= 20;
+                            mouseIsDown = false;
+                        } else {
+                            ctx.fillStyle = "rgba(0,0,0,1)";
+                            ctx.fillText("NEED MORE GOLD", 300, 250);
+                            needgold = 1000;
+                        }
+                    }
+                    if (blockToPlace == 2) {
+                        if (gold >= 30) {
+                            ctx.fillStyle = "rgb(255,255,0)";
+                            map[mapRow][mapCol] = 11;
+                            towers.push(new Tower(mapCol * 13, mapRow * 13, 5, 5, 20));
+                            gold -= 30;
+                            mouseIsDown = false;
+                        } else {
+                            ctx.fillStyle = "rgba(0,0,0,1)";
+                            ctx.fillText("NEED MORE GOLD", 300, 250);
+                            needgold = 1000;
+                        }
+                    }
+                    if (blockToPlace == 3) {
+                        if (gold >= 40) {
+                            ctx.fillStyle = "rgb(0,0,0)";
+                            map[mapRow][mapCol] = 12;
+                            towers.push(new Tower(mapCol * 14, mapRow * 14, 5, 5, 20));
+                            gold -= 40;
+                            mouseIsDown = false;
+                        } else {
+                            ctx.fillStyle = "rgba(0,0,0,1)";
+                            ctx.fillText("NEED MORE GOLD", 300, 250);
+                            needgold = 1000;
+                        }
+                    }
+                    if (blockToPlace == 4) {
+                        if (gold >= 50) {
+                            ctx.fillStyle = "rgb(0,0,0)";
+                            map[mapRow][mapCol] = 13;
+                            towers.push(new Tower(mapCol * 15, mapRow * 15, 5, 5, 20));
+                            gold -= 50;
+                            mouseIsDown = false;
+                        } else {
+                            ctx.fillStyle = "rgba(0,0,0,1)";
+                            ctx.fillText("NEED MORE GOLD", 300, 250);
+                            needgold = 1000;
+                        }
+                    }*/
+                //}
+            }
+            //mouseIsDown = false;
+        }
+
+var timer = 0;
+
+function Button(x,y,w,h,color,onClick)
+{
+	this.x = x;
+	this.y = y;
+	this.w = w;
+	this.h = h;
+	this.color = color;
+	this.onClick = onClick;
+}
+let buttons = [];
+function drawButtons()
+{
+	for(let i = 0; i < buttons.length; i++)
+	{
+		ctx.fillStyle = buttons[i].color;
+		ctx.fillRect(buttons[i].x,buttons[i].y,buttons[i].w,buttons[i].h)
+		if(mouseX >= buttons[i].x && mouseX <= buttons[i].x + buttons[i].w &&
+			mouseY >= buttons[i].y && mouseY <= buttons[i].y + buttons[i].h &&
+			mouseIsDown)
+		{
+			//ctx.fillRect(0,0,100,100)
+			screenNum = "adam";
+		}
+	}
+}
+
+
+function dash()
+{
+	buttons.push(new Button(650,500,100,50,"rgb(245,0,0)"))
+}
 
 function draw(){
-    setTimeout(function() {
-    requestAnimationFrame(draw);
-    ctx.clearRect(0,0,800,600);
-    ///all code goes here
-    //paddleX = ballX - 20;
-	//ballXTheta += .1;
-	//ballYTheta += .1;
-	//drawFastBall
-	    
-	drawTop()
-	if(brickGame == false && score < 165)
+    <!-- setTimeout(function() { -->
+	<!-- requestAnimationFrame(draw); -->
+	ctx.clearRect(0,0,800,600)
+	if(screenNum == "start")
 	{
-		drawBall();
-		drawPaddle();
-		drawScore();
-		drawBlocks();
+		ctx.fillStyle = "rgb(0,0,0)"
+		//ctx.fillRect(0,0,200,200);
+		for(let i = 0; i < squares.length;i++)
+		{
+			<!-- if(mouseX >= squares[i].x && mouseX <= squares[i].x + squares[i].w &&  -->
+				<!-- mouseY >= squares[i].y && mouseY <= squares[i].y + squares[i].h && -->
+				<!-- mouseIsDown) -->
+			<!-- { -->
+				<!-- squares[i].color = "rgb(245,0,0)"; -->
+				
+				<!-- //console.log("red") -->
+			<!-- } -->
+			ctx.fillStyle = squares[i].color
+			ctx.fillRect(squares[i].x,squares[i].y,25,25)
+			if(squares[i].color == "rgb(245,0,0)")
+			{
+				
+			}
+		}
+		drawMap();
+		placePieces();
+		dash();
+		drawButtons();
+		//ctx.fillRect(mouseX,mouseY,100,100)
 	}
-	else if (brickGame)
+	else 
 	{
-		restart();
-	}
-	if (score >= 165)
-	{
-		ctx.filStyle 
-		ctx.font = "100px Ariel"
-		ctx.fillText("YOU WIN",200,350)
+		fps = 0;
+		if(timer == 0)
+		{
+			adam(map);
+			timer++;
+		}
+		
+		clearInterval(draw);
+		console.log("adam")
+		
 	}
 	
-   	collision();
-	stop();
-    	movement();
-	Movement();
-	MovementAD();
-	//youWin();
-	//drawHighScore();
-	//test();
-	//upArrowMovement();
-    }, 1000/fps);
+	
+	
+	
+	<!-- }, 1000/fps); -->
 }
-draw();
-
- 
-
+setInterval(draw,0);
 </script>
 </body>
 </html>
