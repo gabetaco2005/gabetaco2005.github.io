@@ -491,7 +491,7 @@ function home()
 	btn11.draw();
 }
 
-function brickBreaker(x,y)
+function brickBreaker(x,y,close)
 {
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -532,6 +532,7 @@ let randColer = 30;
 let randColer1 = 10;
 let brickBreakerRestart = false;
 let brickWait = 1;
+let screenNum = 1;
 function getMouseDown(e) {
 	mouseIsDown = true;
 }
@@ -691,7 +692,7 @@ function movement() {
 function drawBall(r, g, b) {
 	ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
 	ctx.beginPath();
-	ctx.arc(ballX, ballY, radius, 0, 2 * Math.PI);
+	ctx.arc(ballX+x, ballY+y, radius, 0, 2 * Math.PI);
 	ctx.closePath();
 	ctx.fill();
 }
@@ -731,96 +732,41 @@ function youWin() {
 		}
 	}
 }
-function brickCollision() {
-	<!-- if (ballX - radius <= 0+x || ballX + radius >= 800+x) { -->
-		<!-- ballXTheta = ballXTheta * -1; -->
-	<!-- } -->
-	<!-- if (ballY + radius >= 600+y) { -->
-		<!-- brickGame = true; -->
-	<!-- } -->
-	<!-- if (ballY - radius <= 65+y) { -->
-		<!-- ballYTheta = ballYTheta * -1; -->
-	<!-- } -->
-	<!-- if(ballX > 800 + x) -->
-	<!-- { -->
-		<!-- ballX = (800+x) - (radius*2); -->
-	<!-- } -->
-	if(ballX < x)
+function brickCollision() 
+{
+	if (ballX - radius+x <= 0+x || ballX+x + radius >= 800+x) 
 	{
-		ballX = x+(radius*2);
-		ballXTheta *= -1;
+		ballXTheta = ballXTheta * -1;
 	}
-	if(ballY < y)
+	if (ballY - radius >= 600+y) {
+		brickGame = true;
+	}
+	if (ballY - radius <= 65+y) {
+		ballYTheta = ballYTheta * -1;
+	}
+	if (ballX + radius +x >= paddleX+x && ballX + radius+x <= paddleX +x+ paddleW && 
+		ballY + radius+y >= paddleY +y&& ballY+y + radius <= paddleY +y+ paddleH) 
 	{
-		ballY = y+(radius*2);
-		ballYTheta *= -1;
+		ballYTheta = ballYTheta * -1;
+		if (ballXTheta <= 0) {
+			ballXTheta -= .1;
+		} else {
+			ballXTheta += .1;
+		}
+		if (ballYTheta <= 0) {
+			ballYTheta -= .1;
+		} else {
+			ballYTheta += .1;
+		}
+		moveP += .1;
 	}
-	if(ballY >y+610)
-	{
-		ballY = y+590-(radius*2)
-		ballYTheta *= -1;
-		//gameover
-	}
-	if(ballX > x+800)
-	{
-		ballX = x+700-(radius*2)
-		ballXTheta *= -1;
-	}
-	if(ballX + radius == 800+x)
-	{
-		ballXTheta *=-1;
-	}
-	if(ballY + radius == 600+y)
-	{
-		ballYTheta *=-1;
-	}
-	if(ballY - radius == 65+y)
-	{
-		ballYTheta *= -1;
-	}
-	if(ballX - radius == x)
-	{
-		ballXTheta *=-1;
-	}
-	<!-- if (ballX + radius >= paddleX && ballX + radius <= paddleX + paddleW &&  -->
-		<!-- ballY + radius >= paddleY && ballY + radius <= paddleY + paddleH)  -->
-	<!-- { -->
-		<!-- ballYTheta = ballYTheta * -1; -->
-		<!-- if (ballXTheta <= 0) { -->
-			<!-- ballXTheta -= .1; -->
-		<!-- } else { -->
-			<!-- ballXTheta += .1; -->
-		<!-- } -->
-		<!-- if (ballYTheta <= 0) { -->
-			<!-- ballYTheta -= .1; -->
-		<!-- } else { -->
-			<!-- ballYTheta += .1; -->
-		<!-- } -->
-		<!-- moveP += .1; -->
-	<!-- } -->
-	<!-- if(ballX + radius > 800+x || ballX - radius < 0+x) -->
-	<!-- { -->
-		<!-- ballXTheta = -1 * ballXTheta; -->
-	<!-- } -->
-	<!-- if(ballY + radius > 600+y || ballY - radius < 0+y && ballY < 610+y) -->
-	<!-- { -->
-		<!-- ballYTheta = -1 * ballYTheta; -->
-	<!-- } -->
-	<!-- if(ballY > 600+y) -->
-	<!-- { -->
-		<!-- gameOver = true; -->
-	<!-- } -->
-	<!-- if(ballX > paddleX && ballX < paddleX + paddleW && ballY + radius > paddleY) -->
-	<!-- { -->
-		<!-- ballYTheta *= -1; -->
-	<!-- } -->
 	for (let a = 0; a < blocks.length; a++) {
 		let cx = ballX;
 		let cy = ballY;
 		let testX = cx;
 		let testY = cy;
-		let rx = blocks[a].x+x;
-		let ry = blocks[a].y+y;
+		let rx = blocks[a].x;
+		let ry = blocks[a].y;
 		let rw = 65;
 		let rh = 15;
 		if (cx < rx) testX = rx;
@@ -835,7 +781,6 @@ function brickCollision() {
 			score++;
 			ballYTheta = ballYTheta * -1;
 		}
-		
 	}
 }
 let reset = false;
@@ -875,11 +820,12 @@ function drawTop() {
 	ctx.lineWidth = 5;
 	ctx.fillStyle = "rgb(0,0,0)";
 	ctx.beginPath();
-	ctx.moveTo(0+x, 65+y);
+	ctx.moveTo(x, 65+y);
 	ctx.lineTo(800+x, 65+y);
 	ctx.stroke();
 	ctx.closePath();
 	let topColor = "rgb(0,0,0)";
+	drawTowerTop();
 }
 let topColor = "rgb(0,0,0)";
 
@@ -898,13 +844,27 @@ function drawTowerTop() {
 	ctx.closePath();
 	if (mouseX >= 760+x && mouseX <= 790+x && mouseY >= 10+y && mouseY <= 40+y) {
 		topColor = "rgb(255,0,0)";
-		if (mouseIsDown) {
-			ctx.canvas.width = window.innerWidth;
-			ctx.canvas.height = window.innerHeight;
-			screenNum = 1;
-			if (!brokeGame) {
-				hasStarted = false;
+		if (mouseIsDown) 
+		{
+			
+			for(let i = 0; i < close.length-11; i++)
+			{
+				console.log(close.substring(i,i+11));
+				if(close.substring(i,i+11) == "brickBreake")
+				{
+					console.log("close");
+					/*console.log(*/
+					close.replace("brickBreaker", "");//)
+					//close.substring(i,i+12) = " ";
+					screenNum = "close";
+				}
 			}
+			<!-- ctx.canvas.width = window.innerWidth; -->
+			<!-- ctx.canvas.height = window.innerHeight; -->
+			<!-- screenNum = 1; -->
+			<!-- if (!brokeGame) { -->
+				<!-- hasStarted = false; -->
+			<!-- } -->
 		}
 	} else {
 		topColor = "rgb(0,0,0)";
@@ -912,8 +872,10 @@ function drawTowerTop() {
 }
 
 function draw() {
-	setTimeout(function() {
-		requestAnimationFrame(draw);
+	<!-- setTimeout(function() { -->
+		<!-- requestAnimationFrame(draw); -->
+		if(screenNum != "close")
+		{
 		home();
 		//wW =window.innerWidth;
 		//wH =window.innerHeight;
@@ -921,10 +883,17 @@ function draw() {
 		//ctx.canvas.width = 800;
 		//ctx.clearRect(0, 0, 800, num);
 		//ctx.canvas.height = num;
-		if(mouseX >= 0+x && mouseX <=800+x &&
-			mouseY >=0+y && mouseY <= 65+y )//&& mouseIsDown)
+		if(mouseX >= x && mouseX <=750+x &&
+			mouseY >=y && mouseY <= 65+y && mouseIsDown)
 		{
-			x = mouseX-50;
+			if(x+400 > mouseX)
+			{
+				x-=10;
+			}
+			if(x+400 < mouseX)
+			{
+				x+=10;
+			}
 			y = mouseY-20;
 		}
 		if(spacePressed)
@@ -932,7 +901,7 @@ function draw() {
 			paddleX = ballX - 50
 		}
 		ctx.fillStyle = "rgb(245,245,245)";
-		ctx.fillRect(0+x,0+y,800,610);
+		ctx.fillRect(x,y,800,610);
 		
 		
 		let matched = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -1007,13 +976,16 @@ function draw() {
 		else
 		{
 			num = 600;
-		}
-	 }, 1000 / fps);
+		}}
+	 <!-- }, 1000 / fps); -->
 }
-draw();	
+setInterval(draw, 10);	
 }
+///12 brick close
+
+
 let ran = true;
-function drawd()
+function draw()
 {
 	if(appLink == "home")
 	{
@@ -1024,13 +996,13 @@ function drawd()
 		if(ran)
 		{
 			//home();//ctx.clearRect(0, 0, 800, 600);
-			brickBreaker(10,10);
+			brickBreaker(10,10,appLink);
 			ran = false;
 		}
 	}
 }
 
-setInterval(drawd,10);
+setInterval(draw,10);
 </script>
 </body>
 </html>
